@@ -4,13 +4,11 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {TextInput, Button} from 'react-native-paper';
 import api from "../../../services/api";
 
-export default function Add() {
+export default function Add({navigation, route}) {
 
 
     const [name, setName] = useState('');
     const [pages, setPages] = useState('');
-
-    const navigation = useNavigation();
 
     async function add() {
         const newBook = {
@@ -21,7 +19,7 @@ export default function Add() {
         const book = await api.post('books', newBook)
 
         if (book) {
-            navigation.navigate('Home');
+            navigation.navigate('Home', { post: book });
         }
     }
 

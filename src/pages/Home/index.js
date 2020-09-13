@@ -4,10 +4,12 @@ import {Avatar, Card, IconButton, Button} from "react-native-paper";
 import api from "../../../services/api";
 import {StyleSheet, View} from "react-native";
 
-export default function Index() {
+export default function Index({navigation, route}) {
+
+    // const {response} = route.params;
 
     const [books, setBooks] = useState([]);
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
 
     async function loadBooks() {
         const response = await api.get('books');
@@ -30,6 +32,12 @@ export default function Index() {
     useEffect(() => {
         loadBooks()
     }, [])
+
+    useEffect(() => {
+        if (route.params?.post) {
+            loadBooks()
+        }
+    }, [route.params?.post]);
 
     return (
         <View  style={styles.main}>

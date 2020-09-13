@@ -4,14 +4,12 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {TextInput, Button} from 'react-native-paper';
 import api from "../../../services/api";
 
-export default function Detail() {
-    const route = useRoute();
+export default function Detail({navigation, route}) {
     const book = route.params.book;
     const [name, setName] = useState(book.name);
     const [pages, setPages] = useState(book.pages);
     const [pages_read, setPagesRead] = useState(book.pages_read);
 
-    const navigation = useNavigation();
 
     async function update() {
         const bookUpdated = {
@@ -25,7 +23,7 @@ export default function Detail() {
         if (bookUpdated.pages_read <= pages) {
             const response = await api.put(`books/${book.id}`, bookUpdated);
             if (response) {
-                navigation.navigate('Home');
+                navigation.navigate('Home', { post: response });
             }
         }
     }
@@ -33,7 +31,7 @@ export default function Detail() {
     async function deletar() {
         const response = await api.delete(`books/${book.id}`);
         if (response) {
-            navigation.navigate('Home');
+            navigation.navigate('Home', { post: response });
         }
     }
 
